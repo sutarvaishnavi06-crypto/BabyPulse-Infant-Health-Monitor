@@ -80,7 +80,7 @@ BabyPulse/
 ├── requirements.txt
 ├── Procfile
 ├── README.md
-├── babypulse.db              # created automatically at first run
+├── babypulse.db             
 ├── models/
 │   ├── __init__.py
 │   └── anomaly_detector.py
