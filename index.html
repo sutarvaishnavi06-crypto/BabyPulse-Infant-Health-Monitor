@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BabyPulse | Infant Health Pattern Monitor</title>
+  <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+<main class="shell">
+  <header class="topbar">
+    <div class="logo">♡</div>
+    <div><div class="brand">BabyPulse</div><div class="tagline">INFANT HEALTH PATTERN MONITOR</div></div>
+    <span class="status">● YOUR DAILY CARE COMPANION</span>
+  </header>
+
+  <section class="hero">
+    <p class="eyebrow">SMALL RECORDS. BETTER CONVERSATIONS.</p>
+    <h1>Every little detail <span>matters.</span></h1>
+    <p>Keep daily observations organized, explore health patterns and prepare a clear record to discuss with your paediatrician.</p>
+  </section>
+
+  <section class="notice">BabyPulse is an educational record-keeping and statistical analysis prototype. It does not diagnose, assess medical urgency or replace professional medical advice. For urgent concerns, contact a healthcare professional.</section>
+
+  <section class="layout">
+    <aside class="panel entry-panel">
+      <div class="heading"><span>01</span><div><h2>Daily health entry</h2><p>Record an observation</p></div></div>
+      <form id="recordForm">
+        <label>Date and time<input id="recordedAt" type="datetime-local" required></label>
+        <div class="two">
+          <label>Temperature (°F)<input id="temperature" type="number" min="80" max="110" step="0.1" placeholder="98.6" required></label>
+          <label>Sleep (hours)<input id="sleep" type="number" min="0" max="24" step="0.1" placeholder="14" required></label>
+        </div>
+        <div class="two">
+          <label>Feeding count<input id="feeding" type="number" min="0" max="30" step="1" placeholder="8" required></label>
+          <label>Wet diapers<input id="diapers" type="number" min="0" max="30" step="1" placeholder="6" required></label>
+        </div>
+        <label>Heart rate (bpm) <small>Optional; enter only if measured</small><input id="heartRate" type="number" min="20" max="300" placeholder="Optional"></label>
+        <label>Symptoms / observations<textarea id="symptoms" rows="2" placeholder="Describe what you observed..."></textarea></label>
+        <label>Caregiver notes<textarea id="notes" rows="2" placeholder="Additional notes..."></textarea></label>
+        <button class="primary" type="submit">Save daily record <span>＋</span></button>
+        <p id="recordMessage" class="message" aria-live="polite"></p>
+      </form>
+      <a class="report-link" href="/api/report">↓ Download doctor-ready PDF report</a>
+    </aside>
+
+    <section class="main-content">
+      <div class="heading"><span>02</span><div><h2>Health history</h2><p>Previously saved observations</p></div><button id="refreshRecords" class="small-button">Refresh</button></div>
+      <div class="history panel">
+        <div class="history-stats">
+          <div><small>SAVED RECORDS</small><strong id="savedCount">0</strong></div>
+          <div><small>DATA SOURCE</small><strong class="source-label">Your entries</strong></div>
+        </div>
+        <div class="table-wrap"><table><thead><tr><th>DATE / TIME</th><th>TEMP °F</th><th>SLEEP H</th><th>FEEDS</th><th>WET DIAPERS</th></tr></thead><tbody id="historyBody"><tr><td colspan="5" class="empty">No entries yet. Add your first record.</td></tr></tbody></table></div>
+      </div>
+
+      <div class="heading model-heading"><span>03</span><div><h2>Anomaly detection</h2><p>Explore unusual numerical patterns using Isolation Forest</p></div></div>
+      <div class="panel model-panel">
+        <div class="controls">
+          <label>Contamination <output id="contaminationValue">0.05</output><input id="contamination" type="range" min="0.01" max="0.30" step="0.01" value="0.05"></label>
+          <label>Number of estimators <output id="estimatorsValue">100</output><input id="estimators" type="range" min="10" max="500" step="10" value="100"></label>
+        </div>
+        <div class="dataset-row">
+          <label class="upload">Upload CSV <input id="fileInput" type="file" accept=".csv"></label>
+          <select id="sampleSelect"><option value="">Choose example dataset</option></select>
+          <button id="savedDataButton" class="secondary">Use saved entries</button>
+          <button id="runButton" class="primary">Run detection ↗</button>
+        </div>
+        <p id="modelMessage" class="message" aria-live="polite">Choose a sample dataset, upload a CSV or save at least five daily records.</p>
+        <div class="metrics">
+          <div><small>OBSERVATIONS</small><strong id="totalCount">—</strong></div>
+          <div><small>NORMAL</small><strong class="cyan" id="normalCount">—</strong></div>
+          <div><small>ANOMALIES</small><strong class="coral" id="anomalyCount">—</strong></div>
+          <div><small>ANOMALY RATE</small><strong id="anomalyRate">—</strong></div>
+        </div>
+        <div class="chart-head"><div><h3>Observation distribution</h3><p id="chartCaption">Run detection to view results.</p></div><span class="legend"><i></i> Normal <b></b> Anomaly</span></div>
+        <div id="chart"></div>
+        <div class="table-wrap result-table"><table><thead><tr><th>OBSERVATION</th><th>FEATURE 1</th><th>FEATURE 2</th><th>LABEL</th><th>ANOMALY SCORE</th></tr></thead><tbody id="resultBody"><tr><td colspan="5" class="empty">No analysis yet.</td></tr></tbody></table></div>
+        <p class="disclaimer">Anomaly scores are statistical model outputs, not probabilities or diagnoses. A model flag does not establish that an infant is unwell, and no flag does not establish that an infant is well. Clinical guidance takes priority.</p>
+      </div>
+    </section>
+  </section>
+  <footer>BabyPulse · A focused educational prototype powered by Flask, Scikit-learn and Plotly.js</footer>
+</main>
+<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+</body>
+</html>
