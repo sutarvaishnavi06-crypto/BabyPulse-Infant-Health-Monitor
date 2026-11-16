@@ -25,45 +25,24 @@ Python, Flask, pandas, NumPy, Scikit-learn, SQLite, HTML5, CSS3, JavaScript, Plo
 - Python 3.10 or newer
 - pip
 
-## Run locally
+## Running the Project
 
-1. Extract the ZIP and open the `BabyPulse` folder in a terminal.
-2. Create a virtual environment:
+1. Clone or download this repository.
+2. Install the required dependencies:
 
-   ```bash
-   python -m venv venv
-   ```
+```bash
+pip install -r requirements.txt
+```
 
-3. Activate it:
+3. Run the Flask application:
 
-   **Windows PowerShell**
-   ```powershell
-   .\venv\Scripts\Activate.ps1
-   ```
+```bash
+python app.py
+```
 
-   **Windows Command Prompt**
-   ```cmd
-   venv\Scripts\activate
-   ```
+4. Open `http://127.0.0.1:5000` in your browser.
 
-   **macOS/Linux**
-   ```bash
-   source venv/bin/activate
-   ```
-
-4. Install packages:
-
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-5. Start the app:
-
-   ```bash
-   python app.py
-   ```
-
-6. Open http://127.0.0.1:5000 in your browser.
+**Note:** Python 3.10 or newer is recommended.
 
 ## How to use
 
